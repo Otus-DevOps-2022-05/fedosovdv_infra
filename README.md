@@ -4,7 +4,7 @@ fedosovdv Infra repository
 ## ДЗ-4 (cloud-testapp)
 
 ```
-testapp_IP = 51.250.91.35:9292
+testapp_IP = 51.250.91.35
 
 testapp_port = 9292
 ```
