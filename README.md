@@ -1,6 +1,27 @@
 # fedosovdv_infra
 fedosovdv Infra repository
 
+## ДЗ-4 (cloud-testapp)
+
+```
+testapp_IP = 51.250.0.81
+
+testapp_port = 9292
+```
+
+*команда CLI для получения инстанса с уже запущенным приложением
+```
+yc compute instance create \
+  --name reddit-app \
+  --cores=2 \
+  --zone ru-central1-a \
+  --hostname reddit-app \
+  --memory=4 \
+  --create-boot-disk image-folder-id=standard-images,image-family=ubuntu-1604-lts,size=10GB \
+  --network-interface subnet-name=default-ru-central1-a,nat-ip-version=ipv4 \
+  --metadata-from-file user-data=metadata.yml
+```
+
 ## ДЗ-3 (cloud-bastion)
 
 Данные для подключения:
