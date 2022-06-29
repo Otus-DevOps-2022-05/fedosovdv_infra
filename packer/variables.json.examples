@@ -1,0 +1,7 @@
+{
+    "yc_folder_id": "{{env `FOLDER_ID`}}",
+    "yc_service_account_key_file": "key.json #yc iam key create --service-account-id $ACCT_ID --output key.json",
+    "yc_source_image_family": "ubuntu-2004-lts",
+    "yc_zone":"{{env `YC_ZONE`}}",
+    "yc_subnet_id":"{{env `YC_SUBNET_ID`}}"
+}
