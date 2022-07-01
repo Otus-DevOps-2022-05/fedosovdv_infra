@@ -1,0 +1,42 @@
+{
+ "variables":{
+    "yc_service_account_key_file": "key.json",
+    "yc_folder_id": "{{env `FOLDER_ID`}}",
+    "yc_source_image_family": "ubuntu-1604-lts",
+    "yc_zone":"{{env `YC_ZONE`}}",
+    "yc_subnet_id":"{{env `YC_SUBNET_ID`}}"
+},
+
+    "builders": [
+        {
+            "type": "yandex",
+            "service_account_key_file": "{{user `yc_service_account_key_file`}}",
+            "folder_id": "{{user `yc_folder_id`}}",
+            "source_image_family": "{{user `yc_source_image_family`}}",
+            "image_name": "reddit-full-{{timestamp}}",
+            "image_family": "reddit-full",
+            "ssh_username": "ubuntu",
+            "platform_id": "standard-v1",
+            "zone":"{{user `yc_zone`}}",
+            "subnet_id":"{{user `yc_subnet_id`}}",
+            "use_ipv4_nat": "true"
+
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "shell",
+            "inline":["sleep 100"]
+        },
+        {
+            "type": "shell",
+            "script": "scripts/reddit_app_install.sh",
+            "execute_command": "sudo {{.Path}}"
+        },
+        {
+            "type": "shell",
+            "inline":["sleep 1"
+                ]
+        }
+    ]
+}
