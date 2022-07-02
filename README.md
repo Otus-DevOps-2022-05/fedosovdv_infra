@@ -1,6 +1,18 @@
 # fedosovdv_infra
 fedosovdv Infra repository
 
+## ДЗ-6 (terraform-1)
+- В .gitignore добавлены *.tfstate, *.tfstate.backup, *.tfvars
+- Ресурсы описаны в terraform/main.tf
+- Переменные описаны в variables.tf
+
+### Для сборки образа необходимо:
+- Создать файл **terraform.tfvars** на основе **terraform.tfvars.examples**
+- Применение конфигурации
+ ```
+ terraform apply
+ ```
+
 ## ДЗ-5 (packer-base)
 
 -  Скрипты для сборки образов в **packer/scripts/**
