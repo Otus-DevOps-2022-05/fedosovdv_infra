@@ -1,12 +1,46 @@
 # fedosovdv_infra
 fedosovdv Infra repository
 
+
+## ДЗ-7 (terraform-2)
+- Созданы модули app, db
+- *Для *.tfstate используется yandex_storage_bucket
+- *В модули app и db добавлены provisioner для деплоя и работы приложения
+
+### Для сборки необходимо:
+1.
+- Создать bucket в terraform
+- Создать файл **terraform.tfvars** на основе **terraform.tfvars.examples**
+- Запустить terraform apply
+2.
+- Перейти в terraform/stage или terraform/prod
+- Создать файл **terraform.tfvars** на основе **terraform.tfvars.examples**
+- Добавить переменные среды для инициализации:
+```
+export TERR_KEY="<service-account key>"
+export TERR_SEC="<service-account secret>"
+export BUCKET_NAME="<bucket name>"
+```
+- Выполнить init
+```
+ terraform init \
+ -backend-config="access_key=$TERR_KEY"\
+ -backend-config="secret_key=$TERR_SEC"\
+ -backend-config="bucket=$BUCKET_NAME"
+ ```
+- Применить конфигурацию
+
+ ```
+ terraform apply
+ ```
+
+
 ## ДЗ-6 (terraform-1)
 - В .gitignore добавлены *.tfstate, *.tfstate.backup, *.tfvars
 - Ресурсы описаны в terraform/main.tf
 - Переменные описаны в variables.tf
 
-### Для сборки образа необходимо:
+### Для сборки необходимо:
 - Создать файл **terraform.tfvars** на основе **terraform.tfvars.examples**
 - Применение конфигурации
  ```
