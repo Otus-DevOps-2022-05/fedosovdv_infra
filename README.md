@@ -1,6 +1,32 @@
 # fedosovdv_infra
 fedosovdv Infra repository
 
+## ДЗ-8 (ansible-1)
+- Установлен ansible - ```sudo apt install ansible```
+- *написан скрипт dynamic_inventory.py использующий  terraform output в качестве источника данных
+
+### сделано:
+конфиг прописан в **ansible.cfg**
+
+проверка доступности:
+```
+ansible all -m ping
+```
+запуск shell комманд:
+```
+ansible app -m shell -a 'ruby -v; bundler -v'
+```
+проверка сервиса:
+```
+ansible db -m service -a name=mongodb
+```
+запкск плейбуа:
+```
+ansible-playbook clone.yml
+```
+\* dynamic_inventory.py  - работает в python 3.9 в остальных не проверял
+
+
 
 ## ДЗ-7 (terraform-2)
 - Созданы модули app, db
