@@ -16,7 +16,7 @@ class ExampleInventory(object):
 
         # Called with `--list`.
         if self.args.list:
-            self.inventory = self.get_ter_inventary()
+            self.inventory = self.get_yc_inventary()
         # Called with `--host [hostname]`.
         elif self.args.host:
             # Not implemented, since we return _meta info `--list`.
@@ -26,6 +26,51 @@ class ExampleInventory(object):
             self.inventory = self.empty_inventory()
 
         print (json.dumps(self.inventory))
+
+    def get_yc_inventary(self):
+        cmd = [
+            "yc",
+            "compute",
+            "instance",
+            "list",
+            "--format",
+            "json",
+        ]
+        folder_id = os.environ["FOLDER_ID"]
+        if folder_id:
+            cmd.append("--folder-id")
+            cmd.append(folder_id)
+        result = subprocess.run(cmd, stdout=subprocess.PIPE)
+        result_txt = result.stdout.decode("utf-8")
+        adr_dict = {}
+        inv_dict = {}
+        for elem in json.loads(result_txt):
+            name = elem.get("name")
+            net_int = elem.get("network_interfaces", [{}])[0]
+            # если интерфейс не 1, то  [0] не работает!!
+            inner_ip = net_int.get("primary_v4_address", {}).get("address", "")
+            ip_addr = (
+                net_int.get("primary_v4_address", {})
+                .get("one_to_one_nat", {})
+                .get("address", "")
+            )
+            g_name = name.split("-")[-1].strip()  # получение имени группы и имени хоста =/
+            # при нескольких хостах в группе не переопределять, а добавлять
+            inv_dict[g_name] = {"hosts": [ip_addr.strip()], "vars": {}}
+
+            adr_dict[g_name] = {"inner": inner_ip, "ip": ip_addr}  # для  vars -ов
+
+        if "app" in inv_dict and "db" in inv_dict:
+            pass  # установка переменных
+            inv_dict["app"]["vars"] = {
+                "db_host": adr_dict.get("db", {}).get("inner", "")
+            }
+            inv_dict["db"]["vars"] = {
+                "mongo_bind_ip": adr_dict.get("db", {}).get("inner", "")
+            }
+
+        inv_dict["_meta"] = {"hostvars": {}}
+        return inv_dict
 
     def get_ter_inventary(self):
         cmd = ["terraform", "output"]

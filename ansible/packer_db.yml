@@ -1,0 +1,15 @@
+---
+- name: Install mongodb
+  hosts: all
+  become: true
+  tasks:
+    - name: Install mongodb
+      become: yes
+      apt:
+        update_cache: yes
+        name: mongodb
+
+    - name: Configure service supervisor
+      systemd:
+        name: mongodb
+        enabled: yes

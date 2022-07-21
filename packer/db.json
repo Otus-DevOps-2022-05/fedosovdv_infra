@@ -27,12 +27,11 @@
     "provisioners": [
          {
                 "type": "shell",
-                "inline":["sleep 100"]
+                "inline":["sleep 60"]
             },
         {
-            "type": "shell",
-            "script": "scripts/install_mongodb.sh",
-            "execute_command": "sudo {{.Path}}"
+          "type": "ansible",
+          "playbook_file": "ansible/packer_db.yml"
         }
     ]
 }

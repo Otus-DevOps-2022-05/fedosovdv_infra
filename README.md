@@ -1,6 +1,41 @@
 # fedosovdv_infra
 fedosovdv Infra repository
 
+## ДЗ-9 (ansible-2)
+- Один плейбук, один сценарий **reddit_app_one_play.yml**
+- Один плейбук, несколько сценариев **reddit_app_multiple_plays.yml**
+- Несколько плейбуков **app.yml db.yml deploy.yml site.yml**
+- * добавлена динамическая инвентаризация Yandex.Clou
+- добавлены плейбуки для packer **ansible/packer_app.yml** и **ansible/packer_db.yml**
+- изменены **packer/app.json** и **packer/db.json** для использования ansible
+
+### Для сборки необходимо:
+> cd ansible
+
+- запуск "один сценарий":
+```
+ansible-playbook reddit_app_one_play.yml --limit db --tags db-tag
+ansible-playbook reddit_app_one_play.yml --limit app --tags app-tag
+ansible-playbook reddit_app_one_play.yml --limit app --tags deploy-tag
+```
+- запуск "несколько сценариев":
+```
+ansible-playbook reddit_app_multiple_plays.yml
+```
+- запуск "несколько плейбуков":
+```
+ansible-playbook site.yml
+```
+
+- скрипт dynamic_inventory.py легко парсит ```"yc compute instance list --format json"```
+\+ заполнеяются нужные переменные ```mongo_bind_ip: 0.0.0.0   db_host: 10.xxx.xxx.xxx```
+
+> из корня репозитория
+
+- Ansible в Packer:
+packer build -var-file=packer/variables.json packer/app.json
+
+
 ## ДЗ-8 (ansible-1)
 - Установлен ansible - ```sudo apt install ansible```
 - *написан скрипт dynamic_inventory.py использующий  terraform output в качестве источника данных
