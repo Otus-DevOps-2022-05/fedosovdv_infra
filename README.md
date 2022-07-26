@@ -1,5 +1,29 @@
 # fedosovdv_infra
 fedosovdv Infra repository
+## ДЗ-10 (ansible-3)
+
+- Перенесены созданные плейбуки в раздельные роли
+- Описаны два окружения prod,stage
+- Добавлена Community-роль - jdauphant.nginx
+- Добавлен Ansible Vault
+- * dynamic_inventory.py устанавливает переменные если их не пееркрывают group_vars
+
+### Для сборки необходимо:
+- прописать переменные db_host в ../group_vars/app и адреса в ../inventory или использовать dynamic_inventory.py
+- запуск:
+```
+# на stage
+ansible-playbook playbooks/site.yml
+# на prod
+ansible-playbook -i environments/prod/dynamic_inventory.py playbooks/site.yml
+```
+
+расшифровать/зашифровать
+```
+ansible-vault decrypt environments/prod/credentials.yml
+ansible-vault encrypt environments/prod/credentials.yml
+```
+
 
 ## ДЗ-9 (ansible-2)
 - Один плейбук, один сценарий **reddit_app_one_play.yml**
