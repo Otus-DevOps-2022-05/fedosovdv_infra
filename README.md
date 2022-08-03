@@ -1,5 +1,9 @@
 # fedosovdv_infra
 fedosovdv Infra repository
+## ДЗ-11 (ansible-4)
+Дополните конфигурацию Vagrant для корректной работы проксирования приложения с помощью nginx
+дописаны   ansible2.extra_vars для nginx
+
 ## ДЗ-10 (ansible-3)
 
 - Перенесены созданные плейбуки в раздельные роли
